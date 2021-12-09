@@ -1,0 +1,32 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'SubscriptBea' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for SubscriptBea
+
+pod 'Firebase/Auth'
+pod 'Firebase/Database'
+pod 'Firebase/Storage'
+
+pod 'IQKeyboardManagerSwift'
+pod 'IQDropDownTextField'
+
+# Banners and alert messages
+pod 'SwiftMessages', '~> 5.0'
+
+pod 'SVProgressHUD'
+
+# Object Mapping
+pod 'ObjectMapper'
+
+# Image download async
+pod 'SDWebImage'
+
+#NETWORK API CALLS
+pod 'Alamofire'
+pod 'SwiftyJSON'
+pod 'ReachabilitySwift'
+end
