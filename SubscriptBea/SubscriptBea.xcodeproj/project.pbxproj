@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52D5906A2762AB4D001D0AAB /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D590692762AB4D001D0AAB /* DBHelper.swift */; };
+		52D5906D2762B59C001D0AAB /* SubscriptionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D5906C2762B59C001D0AAB /* SubscriptionModel.swift */; };
 		A766AD8C94F5F02F926CAC94 /* Pods_SubscriptBea.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2CA089A4D2EAF60F9D6E48 /* Pods_SubscriptBea.framework */; };
 		FA06823E275EB4C700EEF749 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA06823D275EB4C700EEF749 /* Subscription.swift */; };
 		FA336FF22754467B00A0662D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA336FF12754467B00A0662D /* GoogleService-Info.plist */; };
@@ -49,6 +51,8 @@
 
 /* Begin PBXFileReference section */
 		314B41A374526BC8881E43BA /* Pods-SubscriptBea.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SubscriptBea.debug.xcconfig"; path = "Target Support Files/Pods-SubscriptBea/Pods-SubscriptBea.debug.xcconfig"; sourceTree = "<group>"; };
+		52D590692762AB4D001D0AAB /* DBHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
+		52D5906C2762B59C001D0AAB /* SubscriptionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionModel.swift; sourceTree = "<group>"; };
 		5C0F95584259C73009E95DDB /* Pods-SubscriptBea.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SubscriptBea.release.xcconfig"; path = "Target Support Files/Pods-SubscriptBea/Pods-SubscriptBea.release.xcconfig"; sourceTree = "<group>"; };
 		CF2CA089A4D2EAF60F9D6E48 /* Pods_SubscriptBea.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SubscriptBea.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA06823D275EB4C700EEF749 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
@@ -113,6 +117,22 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		52D590682762AB1F001D0AAB /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				52D590692762AB4D001D0AAB /* DBHelper.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		52D5906B2762B57C001D0AAB /* Sqlite */ = {
+			isa = PBXGroup;
+			children = (
+				52D5906C2762B59C001D0AAB /* SubscriptionModel.swift */,
+			);
+			path = Sqlite;
+			sourceTree = "<group>";
+		};
 		E950FFBF778037BB31DBF8D9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -124,6 +144,7 @@
 		FA70A16827516AD100D9686D /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				52D590682762AB1F001D0AAB /* Database */,
 				FA70A19427517FFE00D9686D /* Helper.swift */,
 				FAF79022275F2EBC00FFB5B5 /* NSDate */,
 				FA70A18F27517F5300D9686D /* String */,
@@ -274,6 +295,7 @@
 		FAE62861275163350058A652 /* SubscriptBea */ = {
 			isa = PBXGroup;
 			children = (
+				52D5906B2762B57C001D0AAB /* Sqlite */,
 				FA99967027534DB50089E563 /* AppDelegate */,
 				FA70A16A27516AE200D9686D /* Models */,
 				FA70A16927516AD900D9686D /* Controllers */,
@@ -415,6 +437,7 @@
 			files = (
 				FAF79026275F2EBD00FFB5B5 /* NSDate+Formatters.swift in Sources */,
 				FA8F49772761A79E00514D0D /* HomeVC+Services.swift in Sources */,
+				52D5906D2762B59C001D0AAB /* SubscriptionModel.swift in Sources */,
 				FA70A18527517B3500D9686D /* HMMessage.swift in Sources */,
 				FA70A19227517F5300D9686D /* String+Attributions.swift in Sources */,
 				FA70A18327517B3500D9686D /* HMButton.swift in Sources */,
@@ -435,6 +458,7 @@
 				FA06823E275EB4C700EEF749 /* Subscription.swift in Sources */,
 				FACE961F27531E880066C6E9 /* HMBaseVC.swift in Sources */,
 				FA70A17927516C8C00D9686D /* LoginVC.swift in Sources */,
+				52D5906A2762AB4D001D0AAB /* DBHelper.swift in Sources */,
 				FA70A17527516C6D00D9686D /* HomeVC.swift in Sources */,
 				FAF79025275F2EBD00FFB5B5 /* Date+Additions.swift in Sources */,
 				FA99966B275348650089E563 /* NavigationController.swift in Sources */,

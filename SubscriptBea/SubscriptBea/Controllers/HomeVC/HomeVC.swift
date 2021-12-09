@@ -22,16 +22,35 @@ class HomeVC: HMBaseVC {
     var user = User()
     var arrSubscriptions : [Subscription] = []
     
+    let db = DBHelper()
+    
     //MARK:- CLASS METHODS
     override func viewDidLoad() {
         super.viewDidLoad()
         self.registerTableViewCell()
-        self.getMySubscriptions()
+//        self.getMySubscriptions()
+                
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.user = UserManager.sharedManager().activeUser
         self.getSubscriptions()
+        
+//        // create table
+        db.createTableSubscription()
+//
+//        // insert
+        db.insertSubscription(id: "", subscriptionTitle: "Hulu", subscriptionType: "Weekly", subscriptionAmount: "1000.0", subscriptionStartDate: "")
+//
+//        // list
+//        var subscriptions: [SubscriptionModel] = db.readSubscription()
+//
+//        // update
+//        db.updateSubscription(id: "1", subscriptionTitle: "Amazon Prime", subscriptionType: "Weekly", subscriptionAmount: "1000.0", subscriptionStartDate: "")
+//
+//        // delete
+//        db.deleteSubscription(id: 2)
+        
     }
     
     class func instantiate() -> HomeVC {
