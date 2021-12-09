@@ -26,6 +26,7 @@ class HomeVC: HMBaseVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.registerTableViewCell()
+        self.getMySubscriptions()
     }
     
     override func viewWillAppear(_ animated: Bool) {
