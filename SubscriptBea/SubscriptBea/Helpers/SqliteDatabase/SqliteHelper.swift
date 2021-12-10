@@ -14,10 +14,11 @@ class SqliteHelper {
     var dbPath = "subscriptbea.sqlite"
     
     init(){
-        db = createDatabse()
+        db = createDatabase()
+        self.createTableSubscription()
     }
     
-    func createDatabse() -> OpaquePointer? {
+    func createDatabase() -> OpaquePointer? {
         let filePath = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathExtension(dbPath)
         
         var db : OpaquePointer? = nil
@@ -48,7 +49,7 @@ class SqliteHelper {
     }
     
     func insertSubscription(subscriptionTitle : String, subscriptionType: String, subscriptionAmount: String, subscriptionStartDate: String) {
-        let query = "INSERT INTO subscription (id, subscriptionTitle, subscriptionType, subscriptionAmount, subscriptionStartDate) VALUES (?, ?, ?, ?, ?);"
+        let query = "INSERT INTO subscription(id, subscriptionTitle, subscriptionType, subscriptionAmount, subscriptionStartDate) VALUES (?, ?, ?, ?, ?);"
         
         var statement : OpaquePointer? = nil
         
