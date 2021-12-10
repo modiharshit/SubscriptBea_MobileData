@@ -58,7 +58,6 @@ class Subscription: NSObject, Mappable, NSCopying, NSCoding {
         subscriptionTitle <- map["title"]
         subscriptionType <- map["type"]
         subscriptionAmount <- map["amount"]
-        //subscriptionStartDate <- (map["startDate"], DateFormatterTransform(dateFormatter: serverDefaultDateTimeFormatter()))
         subscriptionStartDate <- map["startDate"]
     }
     

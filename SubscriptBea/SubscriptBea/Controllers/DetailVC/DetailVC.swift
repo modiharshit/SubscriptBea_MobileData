@@ -19,10 +19,12 @@ class DetailVC: HMBaseVC {
     var subscriptionData = Subscription()
     var isNew : Bool = false
     var datePicker = UIDatePicker()
+    var arrOTTPlatforms : [Subscription] = []
+    var arrTitles : [String] = []
     
     @IBOutlet weak var lblTitle: UILabel!
     
-    @IBOutlet weak var txtTitle: HMTextField!
+    @IBOutlet weak var txtTitle: IQDropDownTextField!
     @IBOutlet weak var txtSubscriptionType: IQDropDownTextField!
     @IBOutlet weak var txtStartDate: IQDropDownTextField!
     @IBOutlet weak var txtAmount: HMTextField!
@@ -32,8 +34,8 @@ class DetailVC: HMBaseVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.getOTTPlatforms()
         self.initializeTextField()
-        self.initializeTypeTextField()
         
         if self.isNew {
             self.lblTitle.text = "Add Subscription"
@@ -56,7 +58,7 @@ class DetailVC: HMBaseVC {
     }
     
     func loadData() {
-        self.txtTitle.text = self.subscriptionData.subscriptionTitle
+        self.txtTitle.selectedItem = self.subscriptionData.subscriptionTitle
         self.txtSubscriptionType.selectedItem = self.subscriptionData.subscriptionType
         
         if let strDate = self.subscriptionData.subscriptionStartDate {
@@ -96,6 +98,9 @@ class DetailVC: HMBaseVC {
     func initializeTypeTextField() {
         self.txtSubscriptionType.isOptionalDropDown = false
         self.txtSubscriptionType.itemList = self.type
+        
+        self.txtTitle.isOptionalDropDown = false
+        self.txtTitle.itemList = self.arrTitles
     }
     
     func showDeleteConfirmation() {
@@ -136,12 +141,12 @@ class DetailVC: HMBaseVC {
 extension DetailVC {
     
     func saveSubscription() {
-        self.sqliteDB.insertSubscription(subscriptionTitle: self.txtTitle.text!,
+        self.sqliteDB.insertSubscription(subscriptionTitle: self.txtTitle.selectedItem! as String,
                                          subscriptionType: self.txtSubscriptionType.selectedItem! as String,
                                          subscriptionAmount: self.txtAmount.text!,
                                          subscriptionStartDate: self.txtStartDate.date?.getFullDateInDefaultFormat() ?? Date().getFullDateInDefaultFormat())
     }
-    
+
     func deleteSubscription() {
         if let id = self.subscriptionData.id {
             self.sqliteDB.deleteSubscription(id: id)
@@ -149,11 +154,11 @@ extension DetailVC {
         HMMessage.showSuccessWithMessage(message: "Deleted successfully")
         self.popVC()
     }
-    
+
     func updateSubscription() {
-        if let userId = self.user.id, let id = self.subscriptionData.id {
+        if let id = self.subscriptionData.id {
             self.sqliteDB.updateSubscription(id: id,
-                                             subscriptionTitle: self.txtTitle.text!,
+                                             subscriptionTitle: self.txtTitle.selectedItem! as String,
                                              subscriptionType: self.txtSubscriptionType.selectedItem! as String,
                                              subscriptionAmount: self.txtAmount.text!,
                                              subscriptionStartDate: self.txtStartDate.date?.getFullDateInDefaultFormat() ?? Date().getFullDateInDefaultFormat())

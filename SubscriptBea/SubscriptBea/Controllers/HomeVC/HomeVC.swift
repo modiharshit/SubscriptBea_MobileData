@@ -22,8 +22,6 @@ class HomeVC: HMBaseVC {
     var user = User()
     var arrSubscriptions : [Subscription] = []
     
-    
-    
     //MARK:- CLASS METHODS
     override func viewDidLoad() {
         super.viewDidLoad()

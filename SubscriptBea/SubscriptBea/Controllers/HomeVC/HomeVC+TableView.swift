@@ -69,6 +69,6 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
             
         }
         HMMessage.showSuccessWithMessage(message: "Deleted successfully")
-        self.getSubscriptions()
+        //self.getSubscriptions()
     }
 }

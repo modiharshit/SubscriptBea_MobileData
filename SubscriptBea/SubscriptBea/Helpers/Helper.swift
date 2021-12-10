@@ -12,6 +12,12 @@ import CoreLocation
 
 let DEVICE_ID_KEY = "deviceID"
 let DEVICE_TYPE = "iOS"
+
+let apiHeaders = [
+    "x-rapidapi-host": "ott-details.p.rapidapi.com",
+    "x-rapidapi-key": "52ade344f5mshe1ac642310998c2p110980jsnbe2961739535"
+]
+
 /**
  Global function to check if the input object is initialized or not.
  
