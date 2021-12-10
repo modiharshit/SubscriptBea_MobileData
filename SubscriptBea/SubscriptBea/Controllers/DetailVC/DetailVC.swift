@@ -127,9 +127,7 @@ class DetailVC: HMBaseVC {
             self.saveSubscription()
         } else {
             self.updateSubscription()
-        }        
-        HMMessage.showSuccessWithMessage(message: self.isNew ? "Subscription Added successfully" : "Updated Successfully")
-        self.popVC()
+        }
     }
     
     @IBAction func btnDeleteSubscriptionAction(_ sender: Any) {
@@ -145,6 +143,8 @@ extension DetailVC {
                                          subscriptionType: self.txtSubscriptionType.selectedItem! as String,
                                          subscriptionAmount: self.txtAmount.text!,
                                          subscriptionStartDate: self.txtStartDate.date?.getFullDateInDefaultFormat() ?? Date().getFullDateInDefaultFormat())
+        HMMessage.showSuccessWithMessage(message: "Subscription Added successfully")
+        self.popVC()
     }
 
     func deleteSubscription() {
@@ -162,8 +162,9 @@ extension DetailVC {
                                              subscriptionType: self.txtSubscriptionType.selectedItem! as String,
                                              subscriptionAmount: self.txtAmount.text!,
                                              subscriptionStartDate: self.txtStartDate.date?.getFullDateInDefaultFormat() ?? Date().getFullDateInDefaultFormat())
+            HMMessage.showSuccessWithMessage(message: "Updated Successfully")
+            self.popVC()
         }
-        HMMessage.showSuccessWithMessage(message: "Profile updated successfully.")
     }
 }
 

@@ -14,7 +14,7 @@ class SqliteHelper {
     var dbPath = "subscriptbea.sqlite"
     
     init(){
-        self.db = createDatabse()
+        db = createDatabse()
     }
     
     func createDatabse() -> OpaquePointer? {
@@ -36,7 +36,7 @@ class SqliteHelper {
         let query = "CREATE TABLE IF NOT EXISTS subscription(id INTEGER PRIMARY KEY AUTOINCREMENT, subscriptionTitle TEXT, subscriptionType TEXT, subscriptionAmount TEXT, subscriptionStartDate TEXT);"
         var statement : OpaquePointer? = nil
         
-        if sqlite3_prepare_v2(self.db, query, -1, &statement, nil) == SQLITE_OK {
+        if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
             if sqlite3_step(statement) == SQLITE_DONE {
                 print("Subscription Table creation success")
             }else {
