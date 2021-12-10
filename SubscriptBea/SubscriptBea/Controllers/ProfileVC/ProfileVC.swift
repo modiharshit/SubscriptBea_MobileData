@@ -123,13 +123,7 @@ extension ProfileVC :  UIImagePickerControllerDelegate, UINavigationControllerDe
 extension ProfileVC {
     
     func getSubscriptions() {
-        if let userID = self.user.id {
-            let placeRef = self.ref.child("users").child(userID).child("subscriptions")
-            
-            placeRef.observeSingleEvent(of: .value, with: { snapshot in
-                self.lblTotalSubscriptions.text = "\(snapshot.childrenCount)"
-            })
-        }
+        self.lblTotalSubscriptions.text = "\(self.sqliteDB.getSubscriptionsCount())"
     }
     
     func getUserProfile() {

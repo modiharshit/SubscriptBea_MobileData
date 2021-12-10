@@ -54,10 +54,9 @@ class SqliteHelper {
         var statement : OpaquePointer? = nil
         
         var isEmpty = false
-        if ((getSubscription()?.isEmpty) != nil) {
+        if getSubscriptionsCount() == 0{
             isEmpty = true
         }
-        
         if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK{
             if isEmpty {
                 sqlite3_bind_int(statement, 1, 1)
@@ -77,7 +76,7 @@ class SqliteHelper {
         
     }
     
-    func getSubscription() -> [Subscription]? {
+    func getSubscriptions() -> [Subscription]? {
         var subscriptions = [Subscription]()
         
         let query = "SELECT * FROM subscription;"
@@ -100,6 +99,31 @@ class SqliteHelper {
             }
         }
         return subscriptions
+    }
+    
+    func getSubscriptionsCount() -> Int {
+        var subscriptions = [Subscription]()
+        
+        let query = "SELECT * FROM subscription;"
+        var statement : OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK{
+            while sqlite3_step(statement) == SQLITE_ROW {
+                let id = String(sqlite3_column_int(statement, 0))
+                let subscriptionTitle = String(describing: String(cString: sqlite3_column_text(statement, 1)))
+                let subscriptionType = String(describing: String(cString: sqlite3_column_text(statement, 2)))
+                let subscriptionAmount = String(describing: String(cString: sqlite3_column_text(statement, 3)))
+                let subscriptionStartDate = String(describing: String(cString: sqlite3_column_text(statement, 4)))
+                let model = Subscription()
+                model.id = id
+                model.subscriptionTitle = subscriptionTitle
+                model.subscriptionType = subscriptionType
+                model.subscriptionAmount = subscriptionAmount
+                model.subscriptionStartDate = subscriptionStartDate
+                
+                subscriptions.append(model)
+            }
+        }
+        return subscriptions.count
     }
     
     func updateSubscription(id: String, subscriptionTitle : String, subscriptionType: String, subscriptionAmount: String, subscriptionStartDate: String) {
