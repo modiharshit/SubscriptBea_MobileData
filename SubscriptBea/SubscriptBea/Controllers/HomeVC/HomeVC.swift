@@ -11,7 +11,7 @@ import Firebase
 import ObjectMapper
 
 class HomeVC: HMBaseVC {
-
+    
     //MARK:- OUTLETS
     @IBOutlet weak var tableView: UITableView!
     
@@ -22,35 +22,17 @@ class HomeVC: HMBaseVC {
     var user = User()
     var arrSubscriptions : [Subscription] = []
     
-    let db = DBHelper()
+    
     
     //MARK:- CLASS METHODS
     override func viewDidLoad() {
         super.viewDidLoad()
         self.registerTableViewCell()
-//        self.getMySubscriptions()
-                
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.user = UserManager.sharedManager().activeUser
         self.getSubscriptions()
-        
-//        // create table
-        db.createTableSubscription()
-//
-//        // insert
-        db.insertSubscription(id: "", subscriptionTitle: "Hulu", subscriptionType: "Weekly", subscriptionAmount: "1000.0", subscriptionStartDate: "")
-//
-//        // list
-//        var subscriptions: [SubscriptionModel] = db.readSubscription()
-//
-//        // update
-//        db.updateSubscription(id: "1", subscriptionTitle: "Amazon Prime", subscriptionType: "Weekly", subscriptionAmount: "1000.0", subscriptionStartDate: "")
-//
-//        // delete
-//        db.deleteSubscription(id: 2)
-        
     }
     
     class func instantiate() -> HomeVC {
@@ -77,25 +59,7 @@ extension HomeVC {
     
     func getSubscriptions() {
         self.arrSubscriptions.removeAll()
-        
-        if let userID = self.user.id {
-            let placeRef = self.ref.child("users").child(userID).child("subscriptions")
-            
-            placeRef.observeSingleEvent(of: .value, with: { snapshot in
-                
-                if snapshot.childrenCount > 0 {
-                    for child in snapshot.children {
-                        let snap = child as! DataSnapshot
-                        let placeDict = snap.value as! [String: Any]
-                        
-                        if let subscription: Subscription = Mapper<Subscription>().map(JSON: placeDict) {
-                            self.arrSubscriptions.append(subscription)
-                        }
-                        
-                    }
-                    self.tableView.reloadData()
-                }
-            })
-        }
+        self.arrSubscriptions = (self.sqliteDB.getSubscription())!
+        self.tableView.reloadData()        
     }
 }

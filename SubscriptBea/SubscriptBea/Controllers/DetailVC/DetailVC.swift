@@ -12,7 +12,7 @@ import IQKeyboardManagerSwift
 import IQDropDownTextField
 
 class DetailVC: HMBaseVC {
-
+    
     var type = ["Weekly","Bi-weekly","Monthly","Quaterly","Half-yearly","Annual"]
     
     var user = User()
@@ -122,8 +122,7 @@ class DetailVC: HMBaseVC {
             self.saveSubscription()
         } else {
             self.updateSubscription()
-        }
-        
+        }        
         HMMessage.showSuccessWithMessage(message: self.isNew ? "Subscription Added successfully" : "Updated Successfully")
         self.popVC()
     }
@@ -137,20 +136,15 @@ class DetailVC: HMBaseVC {
 extension DetailVC {
     
     func saveSubscription() {
-        let timeStampId = Int(self.timestamp)
-        self.ref.child("users").child(self.user.id!).child("subscriptions").child("\(timeStampId)").setValue([
-            "id": "\(timeStampId)",
-            "title" : "\(self.txtTitle.text!)",
-            "type": self.txtSubscriptionType.selectedItem as Any,
-            "startDate": self.txtStartDate.date?.getFullDateInDefaultFormat() ?? Date().getFullDateInDefaultFormat(),
-            "amount": self.txtAmount.text!
-        ])
+        self.sqliteDB.insertSubscription(subscriptionTitle: self.txtTitle.text!,
+                                         subscriptionType: self.txtSubscriptionType.selectedItem! as String,
+                                         subscriptionAmount: self.txtAmount.text!,
+                                         subscriptionStartDate: self.txtStartDate.date?.getFullDateInDefaultFormat() ?? Date().getFullDateInDefaultFormat())
     }
     
     func deleteSubscription() {
-        if let id = self.subscriptionData.id, let userId = self.user.id {
-            self.ref.child("users").child(userId).child("subscriptions").child(id).removeValue()
-            
+        if let id = self.subscriptionData.id {
+            self.sqliteDB.deleteSubscription(id: id)
         }
         HMMessage.showSuccessWithMessage(message: "Deleted successfully")
         self.popVC()
@@ -158,15 +152,13 @@ extension DetailVC {
     
     func updateSubscription() {
         if let userId = self.user.id, let id = self.subscriptionData.id {
-            self.ref.child("users").child(userId).child("subscriptions").child(id).updateChildValues([
-                "title" : self.txtTitle.text!,
-                "type": self.txtSubscriptionType.selectedItem as Any,
-                "startDate": self.txtStartDate.date?.getFullDateInDefaultFormat() ?? Date().getFullDateInDefaultFormat(),
-                "amount": self.txtAmount.text!
-            ])
-            
-            HMMessage.showSuccessWithMessage(message: "Profile updated successfully.")
+            self.sqliteDB.updateSubscription(id: id,
+                                             subscriptionTitle: self.txtTitle.text!,
+                                             subscriptionType: self.txtSubscriptionType.selectedItem! as String,
+                                             subscriptionAmount: self.txtAmount.text!,
+                                             subscriptionStartDate: self.txtStartDate.date?.getFullDateInDefaultFormat() ?? Date().getFullDateInDefaultFormat())
         }
+        HMMessage.showSuccessWithMessage(message: "Profile updated successfully.")
     }
 }
 

@@ -9,7 +9,7 @@
 import Foundation
 import SQLite3
 
-class DBHelper {
+class SqliteHelper {
     var db: OpaquePointer?
     var dbPath = "subscriptbea.sqlite"
     
@@ -47,17 +47,24 @@ class DBHelper {
         }
     }
     
-    func insertSubscription(id: String, subscriptionTitle : String, subscriptionType: String, subscriptionAmount: String, subscriptionStartDate: String) {
+    func insertSubscription(subscriptionTitle : String, subscriptionType: String, subscriptionAmount: String, subscriptionStartDate: String) {
         let query = "INSERT INTO subscription (id, subscriptionTitle, subscriptionType, subscriptionAmount, subscriptionStartDate) VALUES (?, ?, ?, ?, ?);"
         
         var statement : OpaquePointer? = nil
         
+        var isEmpty = false
+        if ((getSubscription()?.isEmpty) != nil) {
+            isEmpty = true
+        }
+        
         if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK{
-            sqlite3_bind_int(statement, 1, 2)
-            sqlite3_bind_text(statement, 2, (subscriptionTitle as NSString).utf8String, -1, nil)
-            sqlite3_bind_text(statement, 3, (subscriptionType as NSString).utf8String, -1, nil)
-            sqlite3_bind_text(statement, 4, (subscriptionAmount as NSString).utf8String, -1, nil)
-            sqlite3_bind_text(statement, 5, (subscriptionStartDate as NSString).utf8String, -1, nil)
+            if isEmpty {
+                sqlite3_bind_int(statement, 0, 1)
+            }
+            sqlite3_bind_text(statement, 1, (subscriptionTitle as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 2, (subscriptionType as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 3, (subscriptionAmount as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 4, (subscriptionStartDate as NSString).utf8String, -1, nil)
             if sqlite3_step(statement) == SQLITE_DONE {
                 print("Subscription Data inserted success")
             }else {
@@ -69,8 +76,8 @@ class DBHelper {
         
     }
     
-    func readSubscription() -> [SubscriptionModel] {
-        var mainList = [SubscriptionModel]()
+    func getSubscription() -> [Subscription]? {
+        var subscriptions = [Subscription]()
         
         let query = "SELECT * FROM subscription;"
         var statement : OpaquePointer? = nil
@@ -81,17 +88,17 @@ class DBHelper {
                 let subscriptionType = String(describing: String(cString: sqlite3_column_text(statement, 2)))
                 let subscriptionAmount = String(describing: String(cString: sqlite3_column_text(statement, 3)))
                 let subscriptionStartDate = String(describing: String(cString: sqlite3_column_text(statement, 4)))
-                let model = SubscriptionModel()
+                let model = Subscription()
                 model.id = id
                 model.subscriptionTitle = subscriptionTitle
                 model.subscriptionType = subscriptionType
                 model.subscriptionAmount = subscriptionAmount
                 model.subscriptionStartDate = subscriptionStartDate
-                                
-                mainList.append(model)
+                
+                subscriptions.append(model)
             }
         }
-        return mainList
+        return subscriptions
     }
     
     func updateSubscription(id: String, subscriptionTitle : String, subscriptionType: String, subscriptionAmount: String, subscriptionStartDate: String) {
@@ -106,8 +113,8 @@ class DBHelper {
             }
         }
     }
-
-    func deleteSubscription(id : Int) {
+    
+    func deleteSubscription(id : String) {
         let query = "DELETE FROM subscription where id = \(id)"
         var statement : OpaquePointer? = nil
         if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK{
