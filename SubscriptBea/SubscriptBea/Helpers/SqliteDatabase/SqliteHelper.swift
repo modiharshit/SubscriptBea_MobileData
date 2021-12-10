@@ -59,12 +59,12 @@ class SqliteHelper {
         
         if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK{
             if isEmpty {
-                sqlite3_bind_int(statement, 0, 1)
+                sqlite3_bind_int(statement, 1, 1)
             }
-            sqlite3_bind_text(statement, 1, (subscriptionTitle as NSString).utf8String, -1, nil)
-            sqlite3_bind_text(statement, 2, (subscriptionType as NSString).utf8String, -1, nil)
-            sqlite3_bind_text(statement, 3, (subscriptionAmount as NSString).utf8String, -1, nil)
-            sqlite3_bind_text(statement, 4, (subscriptionStartDate as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 2, (subscriptionTitle as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 3, (subscriptionType as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 4, (subscriptionAmount as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 5, (subscriptionStartDate as NSString).utf8String, -1, nil)
             if sqlite3_step(statement) == SQLITE_DONE {
                 print("Subscription Data inserted success")
             }else {
@@ -103,11 +103,11 @@ class SqliteHelper {
     
     func updateSubscription(id: String, subscriptionTitle : String, subscriptionType: String, subscriptionAmount: String, subscriptionStartDate: String) {
         
-        let query = "UPDATE subscription SET subscriptionTitle = '\(subscriptionTitle)', subscriptionType = '\(subscriptionType)', subscriptionType = \(subscriptionType), subscriptionAmount = \(subscriptionAmount), subscriptionStartDate = \(subscriptionStartDate)  WHERE id = \(id);"
+        let query = "UPDATE subscription SET subscriptionTitle = '\(subscriptionTitle)', subscriptionType = '\(subscriptionType)', subscriptionType = '\(subscriptionType)', subscriptionAmount = '\(subscriptionAmount)', subscriptionStartDate = '\(subscriptionStartDate)' WHERE id = \(id);"        
         var statement : OpaquePointer? = nil
         if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK{
             if sqlite3_step(statement) == SQLITE_DONE {
-                print("Subscription Data updated success")
+                print("Subscription Data updated successfully")
             }else {
                 print("Subscription Data is not updated in table")
             }
