@@ -57,7 +57,8 @@ extension HomeVC {
     
     func getSubscriptions() {
         self.arrSubscriptions.removeAll()
-        self.arrSubscriptions = (self.sqliteDB.getSubscriptions())!
+        let tempArr = (self.sqliteDB.getSubscriptions())!
+        self.arrSubscriptions = tempArr.reversed()
         self.tableView.reloadData()        
     }
 }

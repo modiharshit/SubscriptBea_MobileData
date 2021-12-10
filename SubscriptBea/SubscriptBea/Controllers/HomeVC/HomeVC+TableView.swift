@@ -40,7 +40,7 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
 
         // action two
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action, indexPath) in
-            self.showDeleteConfirmation(id: self.arrSubscriptions[indexPath.row].id)
+            self.showDeleteConfirmation(id: self.arrSubscriptions[indexPath.row].id.safeString())
             
         })
         deleteAction.backgroundColor = UIColor.red
@@ -48,7 +48,7 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
         return [editAction, deleteAction]
     }
     
-    func showDeleteConfirmation(id: String?) {
+    func showDeleteConfirmation(id: String) {
         
         let alert = UIAlertController(title: "Delete", message: kAreYouSureToDeleteSubscription, preferredStyle: .alert)
         
@@ -63,12 +63,9 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func deleteSubscription(id: String?) {
-        if let id = id, let userId = self.user.id {
-            self.ref.child("users").child(userId).child("subscriptions").child(id).removeValue()
-            
-        }
+    func deleteSubscription(id: String) {
+        self.sqliteDB.deleteSubscription(id: id)
         HMMessage.showSuccessWithMessage(message: "Deleted successfully")
-        //self.getSubscriptions()
+        self.getSubscriptions()
     }
 }
